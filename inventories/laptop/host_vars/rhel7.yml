@@ -1,0 +1,522 @@
+---
+list_users_defined:
+
+  - {
+        name: bin,
+        password: x,
+        uid: 1,
+        gid: 1,
+        comment: bin,
+        home: /bin,
+        shell: /sbin/nologin,
+        group: bin,
+        groups: 
+    }
+
+  - {
+        name: ftp,
+        password: x,
+        uid: 14,
+        gid: 50,
+        comment: FTP User,
+        home: /var/ftp,
+        shell: /sbin/nologin,
+        group: ftp,
+        groups: 
+    }
+
+  - {
+        name: sshd,
+        password: x,
+        uid: 74,
+        gid: 74,
+        comment: Privilege-separated SSH,
+        home: /var/empty/sshd,
+        shell: /sbin/nologin,
+        group: sshd,
+        groups: 
+    }
+
+  - {
+        name: systemd-network,
+        password: x,
+        uid: 192,
+        gid: 192,
+        comment: systemd Network Management,
+        home: /,
+        shell: /sbin/nologin,
+        group: systemd-network,
+        groups: 
+    }
+
+  - {
+        name: halt,
+        password: x,
+        uid: 7,
+        gid: 0,
+        comment: halt,
+        home: /sbin,
+        shell: /sbin/halt,
+        group: root,
+        groups: 
+    }
+
+  - {
+        name: polkitd,
+        password: x,
+        uid: 999,
+        gid: 998,
+        comment: User for polkitd,
+        home: /,
+        shell: /sbin/nologin,
+        group: polkitd,
+        groups: 
+    }
+
+  - {
+        name: postfix,
+        password: x,
+        uid: 89,
+        gid: 89,
+        comment: ,
+        home: /var/spool/postfix,
+        shell: /sbin/nologin,
+        group: postfix,
+        groups: mail
+    }
+
+  - {
+        name: dbus,
+        password: x,
+        uid: 81,
+        gid: 81,
+        comment: System message bus,
+        home: /,
+        shell: /sbin/nologin,
+        group: dbus,
+        groups: 
+    }
+
+  - {
+        name: nobody,
+        password: x,
+        uid: 99,
+        gid: 99,
+        comment: Nobody,
+        home: /,
+        shell: /sbin/nologin,
+        group: nobody,
+        groups: 
+    }
+
+  - {
+        name: sync,
+        password: x,
+        uid: 5,
+        gid: 0,
+        comment: sync,
+        home: /sbin,
+        shell: /bin/sync,
+        group: root,
+        groups: 
+    }
+
+  - {
+        name: shutdown,
+        password: x,
+        uid: 6,
+        gid: 0,
+        comment: shutdown,
+        home: /sbin,
+        shell: /sbin/shutdown,
+        group: root,
+        groups: 
+    }
+
+  - {
+        name: chrony,
+        password: x,
+        uid: 998,
+        gid: 995,
+        comment: ,
+        home: /var/lib/chrony,
+        shell: /sbin/nologin,
+        group: chrony,
+        groups: 
+    }
+
+  - {
+        name: games,
+        password: x,
+        uid: 12,
+        gid: 100,
+        comment: games,
+        home: /usr/games,
+        shell: /sbin/nologin,
+        group: users,
+        groups: 
+    }
+
+  - {
+        name: daemon,
+        password: x,
+        uid: 2,
+        gid: 2,
+        comment: daemon,
+        home: /sbin,
+        shell: /sbin/nologin,
+        group: daemon,
+        groups: 
+    }
+
+  - {
+        name: lp,
+        password: x,
+        uid: 4,
+        gid: 7,
+        comment: lp,
+        home: /var/spool/lpd,
+        shell: /sbin/nologin,
+        group: lp,
+        groups: 
+    }
+
+  - {
+        name: operator,
+        password: x,
+        uid: 11,
+        gid: 0,
+        comment: operator,
+        home: /root,
+        shell: /sbin/nologin,
+        group: root,
+        groups: 
+    }
+
+  - {
+        name: mail,
+        password: x,
+        uid: 8,
+        gid: 12,
+        comment: mail,
+        home: /var/spool/mail,
+        shell: /sbin/nologin,
+        group: mail,
+        groups: 
+    }
+
+  - {
+        name: adm,
+        password: x,
+        uid: 3,
+        gid: 4,
+        comment: adm,
+        home: /var/adm,
+        shell: /sbin/nologin,
+        group: adm,
+        groups: 
+    }
+
+  - {
+        name: root,
+        password: x,
+        uid: 0,
+        gid: 0,
+        comment: root,
+        home: /root,
+        shell: /bin/bash,
+        group: root,
+        groups: 
+    }
+
+  - {
+        name: testuserFTP,
+        password: x,
+        uid: ,
+        gid: ,
+        comment: testuerFTPcomment,
+        home: /var/ftpTEST,
+        shell: /sbin/nologin,
+        group: testuserFTP,
+        groups: 
+    }
+
+list_groups_defined:
+
+  - {
+        name: testuserFTP,
+        password: x,
+    }
+
+  - {
+        name: bin,
+        password: x,
+        gid: 1,
+        users: 
+    }
+
+  - {
+        name: wheel,
+        password: x,
+        gid: 10,
+        users: 
+    }
+
+  - {
+        name: tty,
+        password: x,
+        gid: 5,
+        users: 
+    }
+
+  - {
+        name: systemd-journal,
+        password: x,
+        gid: 190,
+        users: 
+    }
+
+  - {
+        name: users,
+        password: x,
+        gid: 100,
+        users: 
+    }
+
+  - {
+        name: mem,
+        password: x,
+        gid: 8,
+        users: 
+    }
+
+  - {
+        name: lock,
+        password: x,
+        gid: 54,
+        users: 
+    }
+
+  - {
+        name: kmem,
+        password: x,
+        gid: 9,
+        users: 
+    }
+
+  - {
+        name: nobody,
+        password: x,
+        gid: 99,
+        users: 
+    }
+
+  - {
+        name: sshd,
+        password: x,
+        gid: 74,
+        users: 
+    }
+
+  - {
+        name: sys,
+        password: x,
+        gid: 3,
+        users: 
+    }
+
+  - {
+        name: video,
+        password: x,
+        gid: 39,
+        users: 
+    }
+
+  - {
+        name: dialout,
+        password: x,
+        gid: 18,
+        users: 
+    }
+
+  - {
+        name: input,
+        password: x,
+        gid: 999,
+        users: 
+    }
+
+  - {
+        name: cdrom,
+        password: x,
+        gid: 11,
+        users: 
+    }
+
+  - {
+        name: disk,
+        password: x,
+        gid: 6,
+        users: 
+    }
+
+  - {
+        name: utempter,
+        password: x,
+        gid: 35,
+        users: 
+    }
+
+  - {
+        name: postdrop,
+        password: x,
+        gid: 90,
+        users: 
+    }
+
+  - {
+        name: man,
+        password: x,
+        gid: 15,
+        users: 
+    }
+
+  - {
+        name: ftp,
+        password: x,
+        gid: 50,
+        users: 
+    }
+
+  - {
+        name: daemon,
+        password: x,
+        gid: 2,
+        users: 
+    }
+
+  - {
+        name: systemd-network,
+        password: x,
+        gid: 192,
+        users: 
+    }
+
+  - {
+        name: ssh_keys,
+        password: x,
+        gid: 997,
+        users: 
+    }
+
+  - {
+        name: polkitd,
+        password: x,
+        gid: 998,
+        users: 
+    }
+
+  - {
+        name: chrony,
+        password: x,
+        gid: 995,
+        users: 
+    }
+
+  - {
+        name: postfix,
+        password: x,
+        gid: 89,
+        users: 
+    }
+
+  - {
+        name: dbus,
+        password: x,
+        gid: 81,
+        users: 
+    }
+
+  - {
+        name: audio,
+        password: x,
+        gid: 63,
+        users: 
+    }
+
+  - {
+        name: cgred,
+        password: x,
+        gid: 996,
+        users: 
+    }
+
+  - {
+        name: utmp,
+        password: x,
+        gid: 22,
+        users: 
+    }
+
+  - {
+        name: floppy,
+        password: x,
+        gid: 19,
+        users: 
+    }
+
+  - {
+        name: games,
+        password: x,
+        gid: 20,
+        users: 
+    }
+
+  - {
+        name: tape,
+        password: x,
+        gid: 33,
+        users: 
+    }
+
+  - {
+        name: lp,
+        password: x,
+        gid: 7,
+        users: 
+    }
+
+  - {
+        name: mail,
+        password: x,
+        gid: 12,
+        users: postfix
+    }
+
+  - {
+        name: adm,
+        password: x,
+        gid: 4,
+        users: 
+    }
+
+  - {
+        name: root,
+        password: x,
+        gid: 0,
+        users: 
+    }
+
+  - {
+        name: screen,
+        password: x,
+        gid: 84,
+        users: 
+    }
+
+  - {
+        name: testgroup901,
+        password: ,
+        gid: ,
+        users: 
+    }

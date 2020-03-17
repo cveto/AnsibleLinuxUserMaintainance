@@ -1,0 +1,132 @@
+---
+############################################################
+## file:    pl-passwd-to-list.yml
+## command: ansible-playbook pl-passwd-to-list.yml --extra-vars "var_host=localhost"
+##          ansible-playbook pl-passwd-to-list.yml --extra-vars "var_host=localhost" 
+##
+##   desc:    Gathers data from users and saves them in a ONE GIANT list. Another playlist can then read to push the changes.     
+## 
+## ONLY READS FROM HOSTS - WRITES TO LOCALHOST
+##
+## https://stackoverflow.com/questions/32704247/ansible-variable-within-variable
+## https://github.com/ansible/ansible/issues/64678
+## https://www.jeffgeerling.com/blog/2017/adding-strings-array-ansible Editing dictionaries
+## https://www.cyberciti.biz/faq/understanding-etcgroup-file/
+## https://stackoverflow.com/questions/40043826/accessing-a-dictionary-using-another-variable-as-key-yaml
+############################################################
+
+
+
+- hosts: "{{ var_host | default('You_forgot_to_define_hostname_or_groupname') }}" 
+  name: Puts /etc/passwd file to a list which Ansible can read with other playbooks.
+  vars:
+    filedir: "results/{{ var_environment | default('env_unknown') }}/pl-passwd-to-list_{{ inventory_hostname }}.yml"
+    var_space8: "        "          # can't find a different way to add non-braking spaces.
+    var_space4: "    "
+    var_space2: "  "
+    var_null: ""
+    
+  tasks:
+  
+    ## Get passwd data with getend - returns a dictionary with passwd data
+    - name: Get passwd data with getend
+      getent:
+        database: passwd
+   
+    ## Get group data with getend - returns a dictionary with group data
+    - name: Get group data with getend
+      getent:
+        database: group
+        
+    # ## Get shadow data with getend - returns a dictionary with shadow data
+      ## This was for getting user expiration and such - didn't work yet.
+    # - name: Get shadow data with getend
+      # getent:
+        # database: shadow
+    
+    # - debug:
+        # msg: "{{ getent_shadow}}"
+        
+    ## Create a dictionary with KEY=group-number VALUE=group-name. To match group ID to group NAME 
+    - name: Create dictionary key=groupID value=groupname. This will be unique for each host
+      set_fact:
+         grouplist: "{{ grouplist|default({}) | combine( {item.value[1]: item.key} ) }}"  
+      with_dict: "{{ getent_group }}"   
+      
+      
+    ##### THIS PART JUST FOR MATCHING SECONDARY GROUPS TO A USER #############
+
+    ## GROUPS Get passwd data with getend
+    - name: GROUPS get results from the id command
+      command: "id -nG {{ item.key }}"
+      #shell: "id -nG {{ item.key }} | cut -d ' ' -f2-"        # Couldn't make it work since the command saves the "command" differently
+      register: list_idoutput
+      with_dict: "{{ getent_passwd }}"                         # Gives  crypt root sshusers
+      ignore_errors: yes                                       # If users belogns to a group that doesn't exist.
+ 
+        
+    ## This will make a dictionary with key=root group=group2,group3,group4,
+    ## First regex - will replace delimiter space with a comma
+    - name: GROUPS naje a dictionary list_idoutput with username user-groups separated with a comma
+      set_fact: 
+        dict_usergroup: "{{ dict_usergroup|default({}) | combine ({ item.cmd[2] : item.stdout | regex_replace(' ',',') }) }}"
+      with_items: "{{ list_idoutput.results }}" 
+
+    # Second regex - checks if there is a comma in the field. If there is no comma, then there is only one value, and that means that it's a primary group which I do not want, so replace it with nothing
+    - name: Refine the dictionary gy sending it throug regex
+      set_fact: 
+        dict_usergroup: "{{ dict_usergroup|combine({item.key: item.value | regex_replace('^(?:(?!,).)*$','') }) }}"
+      with_dict: "{{ dict_usergroup }}" 
+      
+    # Third regex .. removes the first entry untill it sees a comma. Effectievly removing primary group. I think
+    - name: Refine the dictionary gy sending it throug regex again
+      set_fact: 
+        dict_usergroup: "{{ dict_usergroup|combine({item.key: item.value | regex_replace('^.*?,','') }) }}"
+      with_dict: "{{ dict_usergroup }}" 
+
+
+#####
+
+
+## Delete existing files on target and create a new with a yaml header.
+    - name: Delete existing files
+      file:
+        path: "{{ filedir }}"
+        state: absent
+      delegate_to: localhost            # Target files are local to the machine executing the playlist.
+    
+    - name: Create new file with header
+      lineinfile:
+        path: "{{ filedir }}"
+        line: | 
+            ---
+            list_users_defined:
+        create: yes
+      delegate_to: localhost
+ 
+## Write to text file. If User had a primary groupd that does not exist, he will be assigned to the group of his name.
+    - name: Writes to a txt file.
+      lineinfile:
+        path: "{{ filedir }}"
+        line: |
+            {{var_space2}}- {
+            {{var_space8}}name: {{item.key}},
+            {{var_space8}}password: {{item.value[0]}},
+            {{var_space8}}uid: {{item.value[1]}},
+            {{var_space8}}gid: {{item.value[2]}},
+            {{var_space8}}comment: {{item.value[3]}},
+            {{var_space8}}home: {{item.value[4]}},
+            {{var_space8}}shell: {{item.value[5]}},
+            {{var_space8}}group: {{ grouplist[item.value[2]] | default(item.key) }},
+            {{var_space4}}}
+      with_dict: "{{ getent_passwd }}"
+      delegate_to: localhost
+      
+  # item.key is getend_passwd.root
+  # item.value[2] is getend_passwd.root[2]
+  # grouplist[item.value[2]] is grouplist[getend_passwd.root[2]]   Second value in the list. List is  value of the dictionoary getendpasswd, root is the key name of the coresponsing value.
+
+## Inform where the files are
+    - name: Want to know where the files were saved?
+      debug:
+        msg: "{{ filedir }}"

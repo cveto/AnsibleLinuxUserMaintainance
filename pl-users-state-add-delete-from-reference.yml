@@ -1,0 +1,158 @@
+---
+############################################################
+## file:    
+## command: ansible-playbook -i inventories/laptop/hosts.yml pl-users-state-add-delete-from-reference.yml --extra-vars "var_host=localhost"
+##          ansible-playbook -i inventories/laptop/hosts.yml pl-users-state-add-delete-from-reference.yml --extra-vars "var_host=c7automized var_checkmode=no"
+##          
+## desc:    Check mode is on by default
+############################################################
+
+# getent module: https://docs.ansible.com/ansible/latest/modules/getent_module.html
+# https://github.com/msergiy87/ansible-create-users/blob/master/users.yml
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html#set-theory-filters
+# https://github.com/ansible/ansible-modules-core/issues/96         pause will not execute for every host - not working as expected so it is omited
+
+- name: ENFORCE USER and GROUP STATE
+  hosts: "{{ var_host | default('You_forgot_to_define_hostname_or_groupname') }}"
+  gather_facts: no
+  check_mode: "{{ var_checkmode | default('yes') }}"
+
+  tasks:
+  
+  ### 1 #########################################################
+    ### PASSWD
+    - name: Get passwd from host with getent. Data from getent.
+      getent:
+        database: passwd
+        
+    - name: Make a list of existing users users list_users_existing
+      set_fact:
+         list_users_existing: []
+    - set_fact:
+         list_users_existing: "{{ list_users_existing + [ item ] }}"
+      with_items: "{{ getent_passwd }}" 
+      
+    ### GROUPS
+    - name: Get group data from host with getent.
+      getent:
+        database: group
+        
+    - name: Make a list of existing groups list_groups_existing
+      set_fact:
+         list_groups_existing: []
+    - set_fact:
+         list_groups_existing: "{{ list_groups_existing + [ item ] }}"
+      with_items: "{{ getent_group }}" 
+      
+      
+      
+  ### 2 #########################################################
+    - name: Make a dictionary of of defined users. Data from hostvars.
+      set_fact:
+        list_usernames_defined: []
+    - set_fact:
+        list_usernames_defined: "{{ list_usernames_defined + [ item.name ] }}"
+      with_items: "{{ list_users_defined }}" 
+      
+      
+    - name: Make a dictionary of of defined users. Data from hostvars.
+      set_fact:
+        list_groupnames_defined: []
+    - set_fact:
+        list_groupnames_defined: "{{ list_groupnames_defined + [ item.name ] }}"
+      with_items: "{{ list_groups_defined }}" 
+
+
+
+  ### 2.1 #########################################################
+  ### GET primary group from users that should exist and ensure that they do exist
+    # - name: SET FACT make a list of primary groups (empty)
+      # set_fact:
+        # list_groups_should_exist: []
+ 
+    # - name: SET FACT make a list of primary groups (populate)
+      # set_fact:
+        # list_groups_should_exist: "{{ list_groups_should_exist + [ item.group ] }}"
+      # with_items: "{{ list_users_defined }}"                                                                   # Users that should exist 
+      
+    # - name: remove duplicates
+      # set_fact:
+        # list_groups_should_exist: "{{ list_groups_should_exist | unique }}"
+    
+    # - name: "ensure that the group exists (but don't modify it if it does)"
+      # group:
+        # name: "{{ item }}"
+        # state: present
+      # with_items: "{{ list_groups_should_exist }}"
+    
+
+
+  ### 3 #########################################################     
+    - name: Here is what's going to happen
+      debug:
+        msg: 
+        - "Theese groups will be removed: {{ list_groups_existing | difference(list_groupnames_defined) }}"
+        - "Theese groups will be added: {{ list_groupnames_defined | difference(list_groups_existing) }}"
+        - "Theese users will be removed: {{ list_users_existing | difference(list_usernames_defined) }}"
+        - "Theese users will be added: {{ list_usernames_defined | difference(list_users_existing) }}"
+        -  .
+        -  .
+        - "All users and groups will be updated."
+        
+        
+        
+  ### 4 ######################################################### 
+    - name: Deleting groups (if no groups to delete it will be skipped)
+      user:
+        name: "{{ item }}"
+        state: absent          
+      with_items: "{{ list_groups_existing | difference(list_groupnames_defined) }}"
+      
+
+    - name: Deleting users (if no users to delete it will be skipped)
+      user:
+        name: "{{ item }}"
+        state: absent          # If state is different than expected, it will take action, otherwise no
+        remove: yes            # Only if state is set to absent
+        force: yes             # removes directories (userdel --force). Keys will be deleted, homedir will be deleted groups will be removed even if they are a primary group of someone else. usedel --force
+      with_items: "{{ list_users_existing | difference(list_usernames_defined) }}"
+      
+
+
+  ### 5 #########################################################
+    - name: Add and Update all groups list_groups_defined exist. 
+      group:
+        name: "{{ item.name }}"
+        gid: "{{ item.gid | default(omit,true) }}"                                                               # Careful that gid is not set wrongly.
+        # password: "{% if item.password == 'x'%}omit{% else %}{{ item.password }}{% endif %}"
+        state: present
+      with_items: "{{ list_groups_defined }}"
+      
+
+   
+   ### 6 ######################################################### 
+    - name: Add and Update all existing users.
+      user:
+        name: "{{ item.name }}"
+        password: "{% if item.password == 'x'%}omit{% else %}{{ item.password }}{% endif %}"
+        comment: "{{ item.comment | default(omit, true)  }}"
+        home: "{{ item.home }}"
+        shell: "{{ item.shell }}"
+        group: "{{ item.group }}"                           # Putting a default value here would create a new group for new user - but we don't want that. We want it to be specified in groups
+        groups: "{{ item.groups }}"
+        uid: "{{ item.uid | default(omit, true) }}"         # omit is a special variale that makes Ansible behave in a way as if parameter was never defiined. Works also if the item.uid is "" or empty string.
+        state: present
+        update_password: on_create
+        move_home: "{{ item.move_home | default(omit, true) }}"
+        password_lock: "{{ item.password_lock | default(omit, true) }}"
+        expires: "{{ item.expires | default(omit, true) }}"
+#        remove: "{{ item.remove }}"
+#        system: "{{ item.system }}"
+      with_items: '{{list_users_defined}}'
+      
+     ### 7 #########################################################     
+     # chage -...
+     # password expiration date
+     # min max days password expiration
+     # ....
+      

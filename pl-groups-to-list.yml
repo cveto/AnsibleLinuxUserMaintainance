@@ -1,0 +1,70 @@
+---
+############################################################
+## file:    pl-groups-to-list.yml
+## command: ansible-playbook pl-groups-to-list.yml --extra-vars "var_host=localhost"
+## 
+##   desc:    Gathers data from groups and saves them in a ONE GIANT list.    
+## 
+## ONLY READS FROM HOSTS - WRITES TO LOCALHOST
+##
+############################################################
+
+
+
+- hosts: "{{ var_host | default('You_forgot_to_define_hostname_or_groupname') }}" 
+  name: Puts /etc/group file to a list which Ansible can read with other playbooks. 
+  vars:
+    filedir: "results/{{ var_environment | default('env_unknown') }}/pl-groups-to-list_{{ inventory_hostname }}.yml" 
+    var_space8: "        "          # can't find a different way to add non-braking spaces.
+    var_space4: "    "
+    var_space2: "  "
+    var_null: ""
+    
+  tasks:
+
+## Get group data with getend - returns a dictionary with group data
+    - name: Get group data with getend
+      getent:
+        database: group
+        
+    - debug:
+        msg: "{{ getent_group }}"
+
+## Delete existing files on target and create a new with a yaml header.
+    - name: Delete existing files
+      file:
+        path: "{{ filedir }}"
+        state: absent
+      delegate_to: localhost            # Target files are local to the machine executing the playlist.
+    
+    - name: Create new file with header
+      lineinfile:
+        path: "{{ filedir }}"
+        line: | 
+            ---
+            list_groups_defined:
+        create: yes
+      delegate_to: localhost
+ 
+## Write to text file. If User had a primary groupd that does not exist, he will be assigned to the group of his name.
+    - name: Writes to a txt file.
+      lineinfile:
+        path: "{{ filedir }}"
+        line: |
+            {{var_space2}}- {
+            {{var_space8}}name: {{item.key}},
+            {{var_space8}}password: {{item.value[0]}},
+            {{var_space8}}gid: {{item.value[1]}},
+            {{var_space8}}users: {{item.value[2]}}
+            {{var_space4}}}
+      with_dict: "{{ getent_group }}"
+      delegate_to: localhost
+      
+  # item.key is getend_passwd.root
+  # item.value[2] is getend_passwd.root[2]
+  # grouplist[item.value[2]] is grouplist[getend_passwd.root[2]]   Second value in the list. List is  value of the dictionoary getendpasswd, root is the key name of the coresponsing value.
+
+## Inform where the files are
+    - name: Want to know where the files were saved?
+      debug:
+        msg: "{{ filedir }}"

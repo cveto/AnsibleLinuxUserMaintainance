@@ -1,0 +1,23 @@
+---
+# file: all.yml
+# file: inventories/laptop/group_vars/
+# desc: variables for hosts in group: all. If variable are defined in hosts_vars, theese will not be used.
+#       the URL for this file is not specified anywhere. Ansible assumes it's location based on the location of the inventory (it's in the same directory)
+ansible_port: 22
+var_environment: laptop
+
+# Disabled because it interfeered with rsync. Keys used from now on.
+#ansible_ssh_user: root     # This password is for group all. But if host is defined separately, it will use that one.
+#ansible_ssh_pass: password
+
+# This is a list:
+pkiadmin:
+  - martina_admin
+  - ibaneda_admin
+  - somebody_else-admin
+  
+pkimaint:
+  - remelph-admin
+  - castich-admin
+  - praprfl-admin
+  - cdmoju-admin

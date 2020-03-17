@@ -1,0 +1,2 @@
+Here be files which are specific only to one host. This variable could be defined in the inventory (hosts) file as well.
+In fact, if it defined here and there - the one in the inentory will prevail. I think. By default the most local prevails.

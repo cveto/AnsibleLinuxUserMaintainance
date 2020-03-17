@@ -1,0 +1,926 @@
+---
+# file: c7automized
+# loc:  inventories/laptop/host_vars/
+# desc: variables for host: c7automized. If variable already defined in group, writing them here is redundant.
+#ansible_ssh_user: root
+#ansible_ssh_pass: password
+var_ip_flokilizeuslex: 999.999.999.In_Inventory
+
+system_users:
+
+  - {
+        name: bin,
+        password: x,
+        uid: 1,
+        gid: 1,
+        comment: bin,
+        home: /bin,
+        shell: /sbin/nologin,
+        group: bin,
+        groups: 
+    }
+
+  - {
+        name: gitlab-www,
+        password: x,
+        uid: 998,
+        gid: 995,
+        comment: ,
+        home: /var/opt/gitlab/nginx,
+        shell: /bin/false,
+        group: gitlab-www,
+        groups: 
+    }
+
+  - {
+        name: castich-admin,
+        password: x,
+        uid: 1001,
+        gid: 1004,
+        comment: ,
+        home: /home/castich-admin,
+        shell: /bin/bash,
+        group: pkimaint3,
+        groups: pkimaint
+    }
+
+  - {
+        name: halt,
+        password: x,
+        uid: 7,
+        gid: 0,
+        comment: halt,
+        home: /sbin,
+        shell: /sbin/halt,
+        group: root,
+        groups: 
+    }
+
+  - {
+        name: ntp,
+        password: x,
+        uid: 38,
+        gid: 38,
+        comment: ,
+        home: /etc/ntp,
+        shell: /sbin/nologin,
+        group: ntp,
+        groups: 
+    }
+
+  - {
+        name: nobody,
+        password: x,
+        uid: 99,
+        gid: 99,
+        comment: Nobody,
+        home: /,
+        shell: /sbin/nologin,
+        group: nobody,
+        groups: stupidgroup
+    }
+
+  - {
+        name: sync,
+        password: x,
+        uid: 5,
+        gid: 0,
+        comment: sync,
+        home: /sbin,
+        shell: /bin/sync,
+        group: root,
+        groups: 
+    }
+
+  - {
+        name: ani,
+        password: x,
+        uid: 1016,
+        gid: 1022,
+        comment: ,
+        home: /home/ani,
+        shell: /bin/bash,
+        group: ani,
+        groups: 
+    }
+
+  - {
+        name: praprfl-admin,
+        password: x,
+        uid: 1002,
+        gid: 1004,
+        comment: ,
+        home: /home/praprfl-admin,
+        shell: /bin/bash,
+        group: pkimaint3,
+        groups: pkimaint
+    }
+
+  - {
+        name: systemd-network,
+        password: x,
+        uid: 192,
+        gid: 192,
+        comment: systemd Network Management,
+        home: /,
+        shell: /sbin/nologin,
+        group: systemd-network,
+        groups: 
+    }
+
+  - {
+        name: registry,
+        password: x,
+        uid: 994,
+        gid: 991,
+        comment: ,
+        home: /var/opt/gitlab/registry,
+        shell: /bin/sh,
+        group: registry,
+        groups: 
+    }
+
+  - {
+        name: shutdown,
+        password: x,
+        uid: 6,
+        gid: 0,
+        comment: shutdown,
+        home: /sbin,
+        shell: /sbin/shutdown,
+        group: root,
+        groups: 
+    }
+
+  - {
+        name: mail,
+        password: x,
+        uid: 8,
+        gid: 12,
+        comment: mail,
+        home: /var/spool/mail,
+        shell: /sbin/nologin,
+        group: mail,
+        groups: stupidgroup
+    }
+
+  - {
+        name: operator,
+        password: x,
+        uid: 11,
+        gid: 0,
+        comment: operator,
+        home: /root,
+        shell: /sbin/nologin,
+        group: root,
+        groups: 
+    }
+
+  - {
+        name: jaroslav,
+        password: x,
+        uid: 1008,
+        gid: 1008,
+        comment: edited with ansibleffdgdslo,
+        home: /home/jaroslav,
+        shell: /bin/bash,
+        group: jaroslav,
+        groups: 
+    }
+
+  - {
+        name: sshd,
+        password: x,
+        uid: 74,
+        gid: 74,
+        comment: Privilege-separated SSH,
+        home: /var/empty/sshd,
+        shell: /sbin/nologin,
+        group: sshd,
+        groups: 
+    }
+
+  - {
+        name: cdmoju-admin,
+        password: x,
+        uid: 1003,
+        gid: 1004,
+        comment: ,
+        home: /home/cdmoju-admin,
+        shell: /bin/bash,
+        group: pkimaint3,
+        groups: pkimaint
+    }
+
+  - {
+        name: ftp,
+        password: x,
+        uid: 14,
+        gid: 50,
+        comment: FTP User,
+        home: /var/ftp,
+        shell: /sbin/nologin,
+        group: ftp,
+        groups: stupidgroup
+    }
+
+  - {
+        name: daemon,
+        password: x,
+        uid: 2,
+        gid: 2,
+        comment: daemon,
+        home: /sbin,
+        shell: /sbin/nologin,
+        group: daemon,
+        groups: stupidgroup
+    }
+
+  - {
+        name: git,
+        password: x,
+        uid: 997,
+        gid: 994,
+        comment: ,
+        home: /var/opt/gitlab,
+        shell: /bin/sh,
+        group: git,
+        groups: 
+    }
+
+  - {
+        name: polkitd,
+        password: x,
+        uid: 999,
+        gid: 998,
+        comment: User for polkitd,
+        home: /,
+        shell: /sbin/nologin,
+        group: polkitd,
+        groups: 
+    }
+
+  - {
+        name: gitlab-prometheus,
+        password: x,
+        uid: 993,
+        gid: 990,
+        comment: ,
+        home: /var/opt/gitlab/prometheus,
+        shell: /bin/sh,
+        group: gitlab-prometheus,
+        groups: 
+    }
+
+  - {
+        name: remelph-admin,
+        password: x,
+        uid: 1000,
+        gid: 1004,
+        comment: ,
+        home: /home/remelph-admin,
+        shell: /bin/bash,
+        group: pkimaint3,
+        groups: pkimaint
+    }
+
+  - {
+        name: testuser2,
+        password: x,
+        uid: 1014,
+        gid: 1020,
+        comment: ,
+        home: /home/testuser2,
+        shell: /bin/bash,
+        group: testuser2,
+        groups: 
+    }
+
+  - {
+        name: dbus,
+        password: x,
+        uid: 81,
+        gid: 81,
+        comment: System message bus,
+        home: /,
+        shell: /sbin/nologin,
+        group: dbus,
+        groups: 
+    }
+
+  - {
+        name: gitlab-redis,
+        password: x,
+        uid: 996,
+        gid: 993,
+        comment: ,
+        home: /var/opt/gitlab/redis,
+        shell: /bin/false,
+        group: gitlab-redis,
+        groups: 
+    }
+
+  - {
+        name: lojska,
+        password: x,
+        uid: 1010,
+        gid: 1004,
+        comment: managedByAnsible,
+        home: /home/lojska,
+        shell: /bin/bash,
+        group: pkimaint3,
+        groups: pkimaint2
+    }
+
+  - {
+        name: slado,
+        password: x,
+        uid: 1015,
+        gid: 1021,
+        comment: ,
+        home: /home/slado,
+        shell: /bin/bash,
+        group: slado,
+        groups: wheel
+    }
+
+  - {
+        name: postfix,
+        password: x,
+        uid: 89,
+        gid: 89,
+        comment: ,
+        home: /var/spool/postfix,
+        shell: /sbin/nologin,
+        group: postfix,
+        groups: mail
+    }
+
+  - {
+        name: testic,
+        password: x,
+        uid: 1012,
+        gid: 1017,
+        comment: ,
+        home: /home/testic,
+        shell: /bin/bash,
+        group: opica,
+        groups: 
+    }
+
+  - {
+        name: metka,
+        password: x,
+        uid: 1011,
+        gid: 1004,
+        comment: managedByAnsible,
+        home: /home/metka,
+        shell: /bin/bash,
+        group: pkimaint3,
+        groups: 
+    }
+
+  - {
+        name: games,
+        password: x,
+        uid: 12,
+        gid: 100,
+        comment: games,
+        home: /usr/games,
+        shell: /sbin/nologin,
+        group: users,
+        groups: 
+    }
+
+  - {
+        name: YouShouldNotSeeThisDeleteMe,
+        password: x,
+        uid: 1006,
+        gid: 1007,
+        comment: ,
+        home: /home/YouShouldNotSeeThisDeleteMe,
+        shell: /bin/bash,
+        group: YouShouldNotSeeThisDeleteMe,
+        groups: 
+    }
+
+  - {
+        name: lp,
+        password: x,
+        uid: 4,
+        gid: 7,
+        comment: lp,
+        home: /var/spool/lpd,
+        shell: /sbin/nologin,
+        group: lp,
+        groups: 
+    }
+
+  - {
+        name: gitlab-psql,
+        password: x,
+        uid: 995,
+        gid: 992,
+        comment: ,
+        home: /var/opt/gitlab/postgresql,
+        shell: /bin/sh,
+        group: gitlab-psql,
+        groups: 
+    }
+
+  - {
+        name: francelj,
+        password: x,
+        uid: 1009,
+        gid: 1004,
+        comment: managedByAnsible,
+        home: /home/francelj,
+        shell: /bin/bash,
+        group: pkimaint3,
+        groups: 
+    }
+
+  - {
+        name: maruna,
+        password: x,
+        uid: 1007,
+        gid: 1016,
+        comment: edited with ansibleffdgdslo,
+        home: /home/maruna,
+        shell: /bin/bash,
+        group: maruna,
+        groups: 
+    }
+
+  - {
+        name: adm,
+        password: x,
+        uid: 3,
+        gid: 4,
+        comment: adm,
+        home: /var/adm,
+        shell: /sbin/nologin,
+        group: adm,
+        groups: stupidgroup
+    }
+
+  - {
+        name: root,
+        password: x,
+        uid: 0,
+        gid: 0,
+        comment: root,
+        home: /root,
+        shell: /bin/bash,
+        group: root,
+        groups: pkimaint2
+    }
+    
+  - {
+        name: testuser3,
+        password: x,
+        comment: testingUSerNumber3,
+        home: /home/testuser1,
+        shell: /bin/bash,
+        group: testuser3,
+        groups: 
+    }
+
+
+
+system_groups:
+
+  - {
+        name: tty,
+        password: x,
+        gid: 5,
+        users: 
+    }
+
+  - {
+        name: systemd-journal,
+        password: x,
+        gid: 190,
+        users: 
+    }
+
+  - {
+        name: ala,
+        password: x,
+        gid: 1011,
+        users: 
+    }
+
+  - {
+        name: ala2,
+        password: x,
+        gid: 1012,
+        users: 
+    }
+
+  - {
+        name: ala3,
+        password: x,
+        gid: 1013,
+        users: 
+    }
+
+  - {
+        name: ala5,
+        password: x,
+        gid: 1014,
+        users: 
+    }
+
+  - {
+        name: disk,
+        password: x,
+        gid: 6,
+        users: 
+    }
+
+  - {
+        name: slado,
+        password: x,
+        gid: 1021,
+        users: 
+    }
+
+  - {
+        name: git,
+        password: x,
+        gid: 994,
+        users: 
+    }
+
+  - {
+        name: ssh_keys,
+        password: x,
+        gid: 997,
+        users: 
+    }
+
+  - {
+        name: polkitd,
+        password: x,
+        gid: 998,
+        users: 
+    }
+
+  - {
+        name: zardoz,
+        password: x,
+        gid: 1018,
+        users: 
+    }
+
+  - {
+        name: utmp,
+        password: x,
+        gid: 22,
+        users: 
+    }
+
+  - {
+        name: tape,
+        password: x,
+        gid: 33,
+        users: 
+    }
+
+  - {
+        name: lp,
+        password: x,
+        gid: 7,
+        users: 
+    }
+
+  - {
+        name: pkimaint2,
+        password: x,
+        gid: 1003,
+        users: lojska,root,opica
+    }
+
+  - {
+        name: mail,
+        password: x,
+        gid: 12,
+        users: postfix
+    }
+
+  - {
+        name: adm,
+        password: x,
+        gid: 4,
+        users: 
+    }
+
+  - {
+        name: bin,
+        password: x,
+        gid: 1,
+        users: 
+    }
+
+  - {
+        name: jaroslav,
+        password: x,
+        gid: 1008,
+        users: 
+    }
+
+  - {
+        name: floppy,
+        password: x,
+        gid: 19,
+        users: 
+    }
+
+  - {
+        name: pkimaint,
+        password: x,
+        gid: 1002,
+        users: remelph-admin,castich-admin,praprfl-admin,cdmoju-admin
+    }
+
+  - {
+        name: kmem,
+        password: x,
+        gid: 9,
+        users: 
+    }
+
+  - {
+        name: nobody,
+        password: x,
+        gid: 99,
+        users: 
+    }
+
+  - {
+        name: pkiadmin,
+        password: x,
+        gid: 1001,
+        users: 
+    }
+
+  - {
+        name: opica,
+        password: x,
+        gid: 1017,
+        users: 
+    }
+
+  - {
+        name: dialout,
+        password: x,
+        gid: 18,
+        users: 
+    }
+
+  - {
+        name: input,
+        password: x,
+        gid: 999,
+        users: 
+    }
+
+  - {
+        name: cdrom,
+        password: x,
+        gid: 11,
+        users: 
+    }
+
+  - {
+        name: utempter,
+        password: x,
+        gid: 35,
+        users: 
+    }
+
+  - {
+        name: daemon,
+        password: x,
+        gid: 2,
+        users: 
+    }
+
+  - {
+        name: cgred,
+        password: x,
+        gid: 996,
+        users: 
+    }
+
+  - {
+        name: dbus,
+        password: x,
+        gid: 81,
+        users: 
+    }
+
+  - {
+        name: pkimaint3,
+        password: x,
+        gid: 1004,
+        users: 
+    }
+
+  - {
+        name: stupidgroup,
+        password: x,
+        gid: 1000,
+        users: daemon,adm,mail,nobody,ftp
+    }
+
+  - {
+        name: root,
+        password: x,
+        gid: 0,
+        users: 
+    }
+
+  - {
+        name: lock,
+        password: x,
+        gid: 54,
+        users: 
+    }
+
+  - {
+        name: ani,
+        password: x,
+        gid: 1022,
+        users: 
+    }
+
+  - {
+        name: video,
+        password: x,
+        gid: 39,
+        users: 
+    }
+
+  - {
+        name: ftp,
+        password: x,
+        gid: 50,
+        users: 
+    }
+
+  - {
+        name: gitlab-prometheus,
+        password: x,
+        gid: 990,
+        users: 
+    }
+
+  - {
+        name: gitlab-redis,
+        password: x,
+        gid: 993,
+        users: 
+    }
+
+  - {
+        name: gitlab-psql,
+        password: x,
+        gid: 992,
+        users: 
+    }
+
+  - {
+        name: wheel,
+        password: x,
+        gid: 10,
+        users: slado
+    }
+
+  - {
+        name: users,
+        password: x,
+        gid: 100,
+        users: 
+    }
+
+  - {
+        name: mem,
+        password: x,
+        gid: 8,
+        users: 
+    }
+
+  - {
+        name: ntp,
+        password: x,
+        gid: 38,
+        users: 
+    }
+
+  - {
+        name: sys,
+        password: x,
+        gid: 3,
+        users: 
+    }
+
+  - {
+        name: registry,
+        password: x,
+        gid: 991,
+        users: 
+    }
+
+  - {
+        name: postdrop,
+        password: x,
+        gid: 90,
+        users: 
+    }
+
+  - {
+        name: man,
+        password: x,
+        gid: 15,
+        users: 
+    }
+
+  - {
+        name: sshd,
+        password: x,
+        gid: 74,
+        users: 
+    }
+
+  - {
+        name: systemd-network,
+        password: x,
+        gid: 192,
+        users: 
+    }
+
+  - {
+        name: postfix,
+        password: x,
+        gid: 89,
+        users: 
+    }
+
+  - {
+        name: testuser2,
+        password: x,
+        gid: 1020,
+        users: 
+    }
+
+  - {
+        name: games,
+        password: x,
+        gid: 20,
+        users: 
+    }
+
+  - {
+        name: gitlab-www,
+        password: x,
+        gid: 995,
+        users: 
+    }
+
+  - {
+        name: audio,
+        password: x,
+        gid: 63,
+        users: 
+    }
+
+  - {
+        name: hello,
+        password: x,
+        gid: 1015,
+        users: 
+    }
+    
+  - {
+        name: grouptest900,
+        password: x,
+        gid: 1900,
+        users: 
+    }
+    
+  - {
+        name: YouShouldNotSeeThisDeleteMe,
+        password: x,
+    }
+    
+  - {
+        name: maruna,
+        password: x,
+    }
+    
+  - {
+        name: testuser3,
+        password: x,
+    }
